@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+
+<h1 th:text="${appUser.getFirstName()} + '  ' + ${appUser.getLastName()}"></h1>
+<h3 th:text="'date of birth ' + ${appUser.getDateOfBirth()}" ></h3>
+
+<h1>Bio : </h1>
+<h3 th:text="${appUser.getBio()}" ></h3>
+
+<br><br><br>
+
+<form th:action="@{/addpost}" method="post" >
+    <input type="text" name="body" placeholder="post" />
+    <br><br>
+    <input type="submit" value="Add Post" />
+</form>
+<br><br>
+
+<div th:each="post : ${posts}" >
+    <h2>Post : </h2>
+    <p th:text="${post.getBody()}"></p>
+    <h5 th:text="${post.getCreatedAt()}" ></h5>
+</div>
+
+<br><br>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Log Out" />
+</form>
+
+</body>
+</html>
