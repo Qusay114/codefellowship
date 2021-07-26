@@ -1,7 +1,9 @@
 package codefellowship.web;
 
 import codefellowship.domain.ApplicationUser;
+import codefellowship.domain.Role;
 import codefellowship.infrastructure.ApplicationUserRepository;
+import codefellowship.infrastructure.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,12 +20,14 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class CommonControllers {
 
     @Autowired
-    private ApplicationUserRepository applicationUserRepository ;
+    private AppUserService appUserService ;
     @Autowired
     private BCryptPasswordEncoder encoder ;
 
@@ -47,7 +51,11 @@ public class CommonControllers {
         applicationUser.setLastName(lastName);
         applicationUser.setDateOfBirth(dateOfBirth);
         applicationUser.setBio(bio);
-        applicationUser = applicationUserRepository.save(applicationUser);
+        Role role = new Role("USER");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        applicationUser.setRoles(roles);
+        applicationUser = appUserService.createAppUser(applicationUser);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(applicationUser , null , new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
