@@ -3,6 +3,7 @@ package codefellowship.web;
 import codefellowship.domain.Post;
 import codefellowship.infrastructure.ApplicationUserRepository;
 import codefellowship.infrastructure.PostRepository;
+import codefellowship.infrastructure.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,7 @@ public class PostController {
     @Autowired
     private ApplicationUserRepository applicationUserRepository ;
     @Autowired
-    private PostRepository postRepository ;
+    private PostService postService ;
 
     @PostMapping("/addpost")
     public RedirectView addNewPost(@RequestParam String body){
@@ -30,7 +31,7 @@ public class PostController {
         Post post = new Post(body , createdAt);
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         post.setApplicationUser(applicationUserRepository.findApplicationUserByUsername(userDetails.getUsername()));
-        postRepository.save(post);
-        return new RedirectView("/profile");
+        postService.createPost(post);
+        return new RedirectView("/myprofile");
     }
 }
