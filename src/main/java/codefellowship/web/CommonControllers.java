@@ -5,21 +5,17 @@ import codefellowship.domain.Role;
 import codefellowship.infrastructure.ApplicationUserRepository;
 import codefellowship.infrastructure.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,6 +24,7 @@ public class CommonControllers {
 
     @Autowired
     private AppUserService appUserService ;
+
     @Autowired
     private BCryptPasswordEncoder encoder ;
 
@@ -51,13 +48,13 @@ public class CommonControllers {
         applicationUser.setLastName(lastName);
         applicationUser.setDateOfBirth(dateOfBirth);
         applicationUser.setBio(bio);
-        Role role = new Role("USER");
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        applicationUser.setRoles(roles);
+//        Role role = new Role("USER");
+//        Set<Role> roles = new HashSet<>();
+//        roles.add(role);
+//        applicationUser.setRoles(roles);
         applicationUser = appUserService.createAppUser(applicationUser);
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(applicationUser , null , new ArrayList<>());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(applicationUser, null , new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return new RedirectView("/");
     }
@@ -65,5 +62,10 @@ public class CommonControllers {
     @GetMapping("/login")
     public String getLoginPage(){
         return "login" ;
+    }
+
+    @GetMapping("/access-denied")
+    public String getAccessDeniedPage(){
+        return "access-denied";
     }
 }

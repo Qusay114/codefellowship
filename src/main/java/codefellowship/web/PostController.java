@@ -3,6 +3,7 @@ package codefellowship.web;
 import codefellowship.domain.Post;
 import codefellowship.infrastructure.ApplicationUserRepository;
 import codefellowship.infrastructure.PostRepository;
+import codefellowship.infrastructure.services.AppUserService;
 import codefellowship.infrastructure.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 public class PostController {
 
     @Autowired
-    private ApplicationUserRepository applicationUserRepository ;
+    private AppUserService appUserService ;
     @Autowired
     private PostService postService ;
 
@@ -30,8 +31,8 @@ public class PostController {
         String createdAt = localDateTime.format(dateTimeFormatter);
         Post post = new Post(body , createdAt);
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        post.setApplicationUser(applicationUserRepository.findApplicationUserByUsername(userDetails.getUsername()));
+        post.setApplicationUser(appUserService.findAppUser(userDetails.getUsername()));
         postService.createPost(post);
-        return new RedirectView("/myprofile");
+        return new RedirectView("/profile");
     }
 }

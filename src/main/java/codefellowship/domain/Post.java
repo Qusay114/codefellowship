@@ -1,7 +1,5 @@
 package codefellowship.domain;
 
-import org.springframework.security.core.parameters.P;
-
 import javax.persistence.*;
 
 @Entity
@@ -16,7 +14,7 @@ public class Post {
     private String createdAt ;
 
     @ManyToOne
-    private ApplicationUser applicationUser ;
+    private ApplicationUser applicationUser;
 
     public Post(){}
     public Post(String body){this.body=body;}

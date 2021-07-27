@@ -14,7 +14,9 @@ public class ApplicationUser implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
 
+    @Column(unique = true)
     private String username ;
+
     private String password ;
     private String firstName ;
     private String lastName ;
@@ -25,26 +27,26 @@ public class ApplicationUser implements UserDetails {
     @OneToMany(mappedBy="applicationUser")
     private List<Post> posts ;
 
-    @ManyToMany(cascade = CascadeType.ALL , fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "appuser_role",
-            joinColumns = @JoinColumn(name = "appuser_id") ,
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+//    @ManyToMany(cascade = CascadeType.ALL , fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "appuser_role",
+//            joinColumns = @JoinColumn(name = "appuser_id") ,
+//            inverseJoinColumns = @JoinColumn(name = "role_id"))
+//    private Set<Role> roles = new HashSet<>();
 
     public ApplicationUser(){}
     public ApplicationUser(String username , String password){
         this.username = username ;
         this.password = password ;
     }
-    public ApplicationUser( String username , String password, String firstName , String lastName , String dateOfBirth ){
+    public ApplicationUser(String username , String password, String firstName , String lastName , String dateOfBirth ){
         this.firstName = firstName ;
         this.lastName = lastName ;
         this.dateOfBirth = dateOfBirth ;
         this.username = username ;
         this.password = password ;
     }
-    public ApplicationUser( String username , String password, String firstName , String lastName , String dateOfBirth , String bio ){
+    public ApplicationUser(String username , String password, String firstName , String lastName , String dateOfBirth , String bio ){
         this.firstName = firstName ;
         this.lastName = lastName ;
         this.dateOfBirth = dateOfBirth ;
@@ -77,13 +79,13 @@ public class ApplicationUser implements UserDetails {
         return posts;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
+//    public Set<Role> getRoles() {
+//        return roles;
+//    }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+//    public void setRoles(Set<Role> roles) {
+//        this.roles = roles;
+//    }
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
@@ -115,10 +117,11 @@ public class ApplicationUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> simpleGrantedAuthorities = new ArrayList<>();
-        for (Role role : this.roles)
-            simpleGrantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-        return  simpleGrantedAuthorities ;
+//        List<SimpleGrantedAuthority> simpleGrantedAuthorities = new ArrayList<>();
+//        for (Role role : this.roles)
+//            simpleGrantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+//        return  simpleGrantedAuthorities ;
+        return null;
     }
 
     @Override

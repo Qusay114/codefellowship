@@ -19,6 +19,6 @@ public class UserServiceImp implements UserDetailsService {
 
         if(applicationUser == null)
             throw new UsernameNotFoundException(username + "NOT FOUND!");
-        return applicationUser ;
+        return applicationUser;
     }
 }
