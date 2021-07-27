@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +31,19 @@ public class CommonControllers {
     private BCryptPasswordEncoder encoder ;
 
     @GetMapping("/")
-    public String getHomePage(){
+    public String getHomePage(Model model){
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser"){
+
+            model.addAttribute("showSignup" , true);
+            model.addAttribute("showLogin" , true);
+        }
+        else{
+            model.addAttribute("showLogout" , true);
+            model.addAttribute("username" ,
+            ((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()
+                    );
+            model.addAttribute("showUsername" , true);
+        }
         return "home";
     }
 
@@ -41,17 +55,23 @@ public class CommonControllers {
     @PostMapping("/signup")
     public RedirectView createAppUser(@RequestParam String username , @RequestParam String password
                                     , @RequestParam String firstName , @RequestParam String lastName
-                                    , @RequestParam String bio , @RequestParam String dateOfBirth){
+                                    , @RequestParam String bio , @RequestParam String dateOfBirth
+                                    , @RequestParam String rolePassword){
 
         ApplicationUser applicationUser = new ApplicationUser(username , encoder.encode(password));
         applicationUser.setFirstName(firstName);
         applicationUser.setLastName(lastName);
         applicationUser.setDateOfBirth(dateOfBirth);
         applicationUser.setBio(bio);
-//        Role role = new Role("USER");
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(role);
-//        applicationUser.setRoles(roles);
+        Role userRole = new Role("USER");
+        Role adminRole = new Role("ADMIN");
+        Set<Role> roles = new HashSet<>();
+        if(rolePassword.equals("wallahadmin"))
+            roles.add(adminRole);
+        else
+            roles.add(userRole);
+
+        applicationUser.setRoles(roles);
         applicationUser = appUserService.createAppUser(applicationUser);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(applicationUser, null , new ArrayList<>());
@@ -62,6 +82,12 @@ public class CommonControllers {
     @GetMapping("/login")
     public String getLoginPage(){
         return "login" ;
+    }
+
+    @GetMapping("/login/error")
+    public String failureLogin(Model model){
+        model.addAttribute("failed" , true);
+        return "login";
     }
 
     @GetMapping("/access-denied")

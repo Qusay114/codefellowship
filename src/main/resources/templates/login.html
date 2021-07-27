@@ -2,17 +2,42 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" >
     <title>Log In</title>
+  <style>
+  body{
+  background-image: url("https://cdn.statically.io/img/i.pinimg.com/originals/2d/21/3d/2d213d36f66c318754bd4b78ab9361f1.jpg");
+  background-size : 100%;
+  background-repeat: no-repeat;
+  }
+  button{
+  position:relative;
+  left:50%;
+  transform:translateX(-50%);
+  width:10em;
+  }
+
+  </style>
 </head>
 <body>
-  <form th:action="@{/login}" method="post">
-    <input type="text" name="username" placeholder="username" />
-    <br>
-    <br>
-    <input type="password" name="password" placeholder="password" />
-    <br>
-    <br>
-    <input type="submit" value="Log In" />
+<div id="container">
+
+  <form th:action="@{/login}" method="post" style=" position:relative ;width:25% ; left:50%;transform:translate(-50% , 50%)">
+    <div class="form-group">
+      <input type="text" name="username" placeholder="Username" class="form-control" required >
+<!--      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+    </div>
+    <div class="form-group">
+      <input type="password" name="password"  class="form-control" required placeholder="Password">
+    </div>
+    <div th:if="${failed == true}">
+      <div>
+        incorrect Password or username , please try again
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Log In</button>
   </form>
+
+</div>
 </body>
 </html>

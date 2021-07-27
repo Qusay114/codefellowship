@@ -5,6 +5,8 @@ import codefellowship.infrastructure.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("PostService")
 public class PostServiceImp implements PostService{
     @Autowired
@@ -13,5 +15,10 @@ public class PostServiceImp implements PostService{
     @Override
     public Post createPost(Post post) {
         return postRepository.save(post);
+    }
+
+    @Override
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
     }
 }

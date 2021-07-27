@@ -16,7 +16,19 @@ public class AppUserServiceImp implements AppUserService {
     }
 
     @Override
+    public ApplicationUser findAppUser(Long id) {
+        return applicationUserRepository.findById(id).orElseThrow() ;
+    }
+
+    @Override
     public ApplicationUser createAppUser(ApplicationUser applicationUser) {
         return applicationUserRepository.save(applicationUser);
+    }
+
+    @Override
+    public ApplicationUser deleteUser(Long id) {
+        ApplicationUser applicationUser = applicationUserRepository.findById(id).orElseThrow();
+        applicationUserRepository.deleteById(id);
+        return applicationUser;
     }
 }

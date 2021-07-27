@@ -8,7 +8,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -21,13 +25,26 @@ public class AppUserController {
 
     @GetMapping("/profile")
     public String getProfilePage(Model model){
-        System.out.println("before anything");
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println("---------username " + userDetails.getUsername());
         ApplicationUser appUser = appUserService.findAppUser(userDetails.getUsername());
-        System.out.println("-------- Bio " + appUser.getBio());
         model.addAttribute("appUser" , appUser);
         model.addAttribute("posts" , appUser.getPosts());
+        model.addAttribute("showLogout" , true);
+        model.addAttribute("username" , appUser.getUsername());
+        model.addAttribute("showUsername" , true);
         return "profile" ;
+    }
+
+    @GetMapping("/users/{id}")
+    public String getUsersPage(Model model , @PathVariable Long id){
+        ApplicationUser applicationUser = appUserService.findAppUser(id);
+        model.addAttribute("appUser" , applicationUser);
+        model.addAttribute("posts" , applicationUser.getPosts());
+        return "users" ;
+    }
+    @PostMapping("/users/{id}")
+    public RedirectView deleteUser(Model model , @PathVariable Long id){
+        appUserService.deleteUser(id);
+        return new RedirectView("/");
     }
 }
