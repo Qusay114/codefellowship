@@ -30,11 +30,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/" , "/signup").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/users/**").hasAuthority("ADMIN")
+                .anyRequest().hasAnyAuthority("ADMIN" , "USER")
                 .and()
-                .formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/")
+                .formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/").failureUrl("/login/error")
                 .and()
-                .logout().permitAll()
+                .logout().permitAll().logoutSuccessUrl("/")
                 .and()
                 .exceptionHandling().accessDeniedPage("/access-denied");
 

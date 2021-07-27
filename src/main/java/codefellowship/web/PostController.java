@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
@@ -34,5 +36,11 @@ public class PostController {
         post.setApplicationUser(appUserService.findAppUser(userDetails.getUsername()));
         postService.createPost(post);
         return new RedirectView("/profile");
+    }
+
+    @GetMapping("/posts")
+    public String getPostsPage(Model model){
+        model.addAttribute("posts" , postService.getAllPosts());
+        return "posts";
     }
 }

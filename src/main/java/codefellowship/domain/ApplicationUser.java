@@ -27,12 +27,12 @@ public class ApplicationUser implements UserDetails {
     @OneToMany(mappedBy="applicationUser")
     private List<Post> posts ;
 
-//    @ManyToMany(cascade = CascadeType.ALL , fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "appuser_role",
-//            joinColumns = @JoinColumn(name = "appuser_id") ,
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private Set<Role> roles = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL , fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "appuser_role",
+            joinColumns = @JoinColumn(name = "appuser_id") ,
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public ApplicationUser(){}
     public ApplicationUser(String username , String password){
@@ -79,13 +79,13 @@ public class ApplicationUser implements UserDetails {
         return posts;
     }
 
-//    public Set<Role> getRoles() {
-//        return roles;
-//    }
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-//    public void setRoles(Set<Role> roles) {
-//        this.roles = roles;
-//    }
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
@@ -117,11 +117,10 @@ public class ApplicationUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        List<SimpleGrantedAuthority> simpleGrantedAuthorities = new ArrayList<>();
-//        for (Role role : this.roles)
-//            simpleGrantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-//        return  simpleGrantedAuthorities ;
-        return null;
+        List<SimpleGrantedAuthority> simpleGrantedAuthorities = new ArrayList<>();
+        for (Role role : this.roles)
+            simpleGrantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+        return  simpleGrantedAuthorities ;
     }
 
     @Override

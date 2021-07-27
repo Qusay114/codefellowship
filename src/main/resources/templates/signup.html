@@ -3,30 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign Up</title>
+  <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+        th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css}"
+        rel="stylesheet" media="screen" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
 <body>
   <form th:action="@{/signup}" method="post">
 
-    <input type="text" name="firstName"  placeholder="first name" />
+    <div class="form-group" style=" position:relative ;width:30em ; left:50%;transform:translate(-50% , 20%)">
+    <input type="text" name="firstName"  placeholder="first name" class="form-control" required />
     <br>
+    <input type="text" name="lastName"  placeholder="last name" class="form-control" required />
     <br>
-    <input type="text" name="lastName"  placeholder="last name" />
+    <input type="text" name="username"  placeholder="username" class="form-control" required />
     <br>
+    <input type="password" name="password"  placeholder="password" class="form-control" required />
     <br>
-    <input type="text" name="username"  placeholder="username" />
+    <input type="date" name="dateOfBirth"  placeholder="date of birth" class="form-control" required />
     <br>
+      <textarea name="bio"  placeholder="bio" class="form-control" required></textarea>
     <br>
-    <input type="password" name="password"  placeholder="password" />
-    <br>
-    <br>
-    <input type="date" name="dateOfBirth"  placeholder="date of birth" />
-    <br>
-    <br>
-    <input type="text" name="bio"  placeholder="bio" />
-    <br>
-    <br>
-    <input type="submit" value="Create User" />
-    <input type="reset" value="Reset" />
+      <input type="password" name="rolePassword"  placeholder="confirm your role optional" class="form-control"  />
+      <br>
+      <button type="submit" class="btn btn-primary">Create User</button>
+      <button type="reset" class="btn btn-danger">Reset</button>
+
+    </div>
   </form>
+
 </body>
 </html>
