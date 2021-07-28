@@ -1,14 +1,60 @@
 # codefellowship
 
 ## Description :
-appliction simply allows to each user to sign up and has his own profile , besides the ability to create posts , and see other people posts :
+application simply allows to each user to sign up and has his own profile , besides the ability to create posts , and see other people posts :
+
+### home Route : a route that view the home page of codefellows website
+Example:
+
+                /
+
+### sign up Route : a route that enable a user to sign up in the website 
+
+Example:
+
+                /signup
+
+### log in Route : a route enable the user to sign in the website
+
+Example:
+
+                /login
+
+
+### profile route : a route that shows the information of the user , and shows his posts , besides form post to add a new post 
+
+Example:
+
+                /profile
+
+
+### users Route : a route only available to the admin that shows for specific user , his information and posts , besides the ability to delete that user 
+
+Example:
+
+                /users/1
+
+
 
 ## Dependencies :
-you need to install Gson library to use run the code (gradle run)
+
+        dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+        implementation group: 'org.webjars', name: 'bootstrap', version: '4.6.0'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        runtimeOnly 'org.postgresql:postgresql'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'org.springframework.security:spring-security-test'
+        }
 
 
 ## Instructions :
-* run the application :
+* to run the application you need first to have postgres and open a connection to a specific database then add the name of the database , the username and the password in the application.properies file then use this commend to run it:
 
                 gradle run
 
@@ -17,22 +63,6 @@ you need to install Gson library to use run the code (gradle run)
                 ./gradlew test
 
 
-Example :
-
-                //this to get a quote from the quotesFile
-                FileOperations fileOperations = new FileOperations() ;
-                String filePath = "app/src/main/resources/quotesFile.json" ;
-                System.out.println(fileOperations.getQuote(filePath)); //this will print out a random quote from the file
-
-                //this to get the quote from the api
-                HttpOperations httpOperations = new HttpOperations("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en" , "GET");
-                if(httpOperations.startConnection().equals("success")) {
-                Gson gsonObj = new Gson();
-                ApiQuote reqQuote = gsonObj.fromJson(httpOperations.getData(), ApiQuote.class);
-                fileOperations.insertDataInFile(reqQuote.getQuoteAuthor() , reqQuote.getQuoteText() , "app/src/main/resources/quotesFile.json");
-                System.out.println("The author name : "+reqQuote.getQuoteAuthor());
-                System.out.println("The quote : "+reqQuote.getQuoteText());
-                }
 
 
 
