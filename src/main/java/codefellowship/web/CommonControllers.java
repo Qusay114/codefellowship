@@ -49,6 +49,8 @@ public class CommonControllers {
 
     @GetMapping("/signup")
     public String getSignupPage(){
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser")
+            return "logout";
         return "signup";
     }
 
