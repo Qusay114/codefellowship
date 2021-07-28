@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/**").hasAuthority("ADMIN")
                 .anyRequest().hasAnyAuthority("ADMIN" , "USER")
                 .and()
-                .formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/").failureUrl("/login/error")
+                .formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/" , true).failureUrl("/login/error")
                 .and()
                 .logout().permitAll().logoutSuccessUrl("/")
                 .and()
