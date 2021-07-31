@@ -5,6 +5,8 @@ import codefellowship.infrastructure.ApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("AppUserService")
 public class AppUserServiceImp implements AppUserService {
     @Autowired
@@ -30,5 +32,10 @@ public class AppUserServiceImp implements AppUserService {
         ApplicationUser applicationUser = applicationUserRepository.findById(id).orElseThrow();
         applicationUserRepository.deleteById(id);
         return applicationUser;
+    }
+
+    @Override
+    public List<ApplicationUser> findAppUsers() {
+        return applicationUserRepository.findAll();
     }
 }
