@@ -37,14 +37,31 @@ public class AppUserController {
 
     @GetMapping("/users/{id}")
     public String getUsersPage(Model model , @PathVariable Long id){
-        ApplicationUser applicationUser = appUserService.findAppUser(id);
-        model.addAttribute("appUser" , applicationUser);
-        model.addAttribute("posts" , applicationUser.getPosts());
+        model.addAttribute("appUser" , appUserService.findAppUser(id));
+        model.addAttribute("posts" , appUserService.findAppUser(id).getPosts());
+        return "user" ;
+    }
+
+    @GetMapping("/users")
+    public String getAllUsers(Model model){
+        model.addAttribute("appUsers" , appUserService.findAppUsers());
         return "users" ;
     }
+
+
+
     @PostMapping("/users/{id}")
     public RedirectView deleteUser(Model model , @PathVariable Long id){
         appUserService.deleteUser(id);
         return new RedirectView("/");
+    }
+
+    @PostMapping("/users/following/{id}")
+    public RedirectView addFollowing(@PathVariable Long id){
+        ApplicationUser applicationUser = appUserService.findAppUser(id);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ApplicationUser applicationUser1 = appUserService.findAppUser(userDetails.getUsername());
+        applicationUser1.addFollowing(applicationUser);
+        return new RedirectView("/users") ;
     }
 }

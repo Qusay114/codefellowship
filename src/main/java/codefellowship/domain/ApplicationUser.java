@@ -34,6 +34,17 @@ public class ApplicationUser implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToMany()
+    @JoinTable(
+            name = "userapp_userapp" ,
+            joinColumns = @JoinColumn(name="from_id") ,
+            inverseJoinColumns = @JoinColumn(name = "to_id")
+    )
+    private Set<ApplicationUser> following = new HashSet<>() ;
+
+    @ManyToMany
+    private Set<ApplicationUser> followers = new HashSet<>() ;
+
     public ApplicationUser(){}
     public ApplicationUser(String username , String password){
         this.username = username ;
@@ -82,6 +93,20 @@ public class ApplicationUser implements UserDetails {
     public Set<Role> getRoles() {
         return roles;
     }
+
+    public Set<ApplicationUser> getFollowing() {
+        return following;
+    }
+
+    public Set<ApplicationUser> getFollowers() {
+        return followers;
+    }
+
+    public Set<ApplicationUser> addFollowing(ApplicationUser applicationUser){
+        this.following.add(applicationUser);
+        return this.following ;
+    }
+
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
