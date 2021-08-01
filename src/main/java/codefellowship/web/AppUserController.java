@@ -4,6 +4,8 @@ import codefellowship.domain.ApplicationUser;
 import codefellowship.infrastructure.ApplicationUserRepository;
 import codefellowship.infrastructure.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -63,5 +65,13 @@ public class AppUserController {
         ApplicationUser applicationUser1 = appUserService.findAppUser(userDetails.getUsername());
         applicationUser1.addFollowing(applicationUser);
         return new RedirectView("/users") ;
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<ApplicationUser> test(){
+        ApplicationUser applicationUser = new ApplicationUser("qusay0000" ,"0000" );
+        applicationUser.setFirstName("Qusay");
+        applicationUser.setLastName("Al-Amarat");
+        return new ResponseEntity<>(applicationUser , HttpStatus.ACCEPTED);
     }
 }
