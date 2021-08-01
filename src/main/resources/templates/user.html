@@ -5,19 +5,23 @@
     <title>Users</title>
 </head>
 <body>
-
 <nav th:replace="header :: head"></nav>
-<div th:each="appUser : ${appUsers}">
+
 <h1 th:text="${appUser.getFirstName()} + '  ' + ${appUser.getLastName()}"></h1>
 <h3 th:text="'date of birth ' + ${appUser.getDateOfBirth()}" ></h3>
 
 <h1>Bio : </h1>
 <h3 th:text="${appUser.getBio()}" ></h3>
-    <form th:action="@{'/users/following/'+${appUser.getId()}}" method="post">
-        <input type="submit" value="Follow" />
-    </form>
 
+<h1>User Posts: </h1>
+<div th:each="post : ${posts}" >
+    <h2>Post : </h2>
+    <p th:text="${post.getBody()}"></p>
+    <h5 th:text="${post.getCreatedAt()}" ></h5>
 </div>
 
+<form th:action="@{'/users/'+${appUser.getId()}}" method="post" >
+    <input type="submit" value="Delete User" class="btn btn-danger" />
+</form>
 </body>
 </html>
